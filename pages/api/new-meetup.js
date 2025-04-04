@@ -1,15 +1,27 @@
 // pages/api/new-meetup.js
+import clientPromise from "../../lib/db";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const data = req.body;
-    const { title, image, address, description } = data;
+    const { title, image, address, description } = req.body;
 
-    // 1. POST 요청 확인
-    // 2. req.body로부터 데이터 추출
+    try {
+      const client = await clientPromise;
+      const db = client.db();
+      const meetupsCollection = db.collection("meetups");
 
-    // TODO: 이곳에서 데이터베이스에 저장하는 작업 진행 예정
+      const result = await meetupsCollection.insertOne({
+        title,
+        image,
+        address,
+        description,
+      });
 
-    res.status(201).json({ message: "Meetup inserted!" });
+      res.status(201).json({ message: "Meetup inserted!", id: result.insertedId });
+    } catch (error) {
+      res.status(500).json({ message: "DB 저장 중 오류 발생", error: error.message });
+    }
+  } else {
+    res.status(405).json({ message: "허용되지 않은 요청입니다." });
   }
 }
