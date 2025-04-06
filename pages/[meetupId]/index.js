@@ -1,48 +1,66 @@
+import { ObjectId } from "mongodb";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+import clientPromise from "../../lib/db";
 
 function MeetupDetails(props) {
   return (
     <MeetupDetail
-      image="https://lh3.googleusercontent.com/gps-cs-s/AB5caB9gaZ7QemAEFHjKjnWRn9r5tyg0dub7uO37nk2WWZ-8OLxI6FHXSID95SJFwOSgXR-oJQsr6Na6h5K2JDNHmaaWw-sOEoxvA6j3BmL6j0XRPOg7kuhXbUuLNhcHtvomKDEQcvqUYA=s1360-w1360-h1020"
-      title="신촌 저녁 번개 모임"
-      address="서울 서대문구 연세로 12길 34, 커피빈 신촌점"
-      description="퇴근 후 가볍게 만나 커피 한 잔하며 이야기 나눠요!"
+      image={props.meetupData.image}
+      title={props.meetupData.title}
+      address={props.meetupData.address}
+      description={props.meetupData.description}
     />
   );
 }
 
+// 특정 meetupId에 해당하는 데이터를 사전 렌더링 시 미리 가져오는 함수
 export async function getStaticProps(context) {
-  const meetupId = context.params.meetupId;
+  const meetupId = context.params.meetupId; // 동적 경로에서 meetupId 추출
 
+  // ✅ MongoDB에 연결
+  const client = await clientPromise;
+  const db = client.db();
+
+  // ✅ meetups 컬렉션 접근
+  const meetupsCollection = db.collection("meetups");
+
+  // ✅ 해당 meetupId를 가진 하나의 문서 조회
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId.createFromHexString(meetupId), // 문자열 ID를 ObjectId로 변환
+  });
+
+  // ✅ 조회한 데이터를 props로 반환하여 해당 페이지에 전달
   return {
     props: {
       meetupData: {
-        image:
-          "https://lh3.googleusercontent.com/gps-cs-s/AB5caB9gaZ7QemAEFHjKjnWRn9r5tyg0dub7uO37nk2WWZ-8OLxI6FHXSID95SJFwOSgXR-oJQsr6Na6h5K2JDNHmaaWw-sOEoxvA6j3BmL6j0XRPOg7kuhXbUuLNhcHtvomKDEQcvqUYA=s1360-w1360-h1020",
-        id: meetupId,
-        title: "신촌 저녁 번개 모임",
-        address: "서울 서대문구 연세로 12길 34, 커피빈 신촌점",
-        description: "퇴근 후 가볍게 만나 커피 한 잔하며 이야기 나눠요!",
+        id: selectedMeetup._id.toString(), // ObjectId를 문자열로 변환
+        title: selectedMeetup.title,
+        image: selectedMeetup.image,
+        address: selectedMeetup.address,
+        description: selectedMeetup.description,
       },
     },
   };
 }
 
+// 동적 경로를 사전 생성할 때 사용되는 함수
 export async function getStaticPaths() {
+  // ✅ MongoDB에 연결
+  const client = await clientPromise;
+  const db = client.db();
+
+  // ✅ meetups 컬렉션 접근
+  const meetupsCollection = db.collection("meetups");
+
+  // ✅ 모든 meetup의 _id만 가져옴 (필요한 필드만 선택)
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
+  // ✅ 각 meetup의 ID를 문자열로 변환해 경로 배열 생성
   return {
-    fallback: false,
-    paths: [
-      {
-        params: {
-          meetupId: "m1",
-        },
-      },
-      {
-        params: {
-          meetupId: "m2",
-        },
-      },
-    ],
+    fallback: false, // 정의된 경로 외에는 404 페이지로 처리
+    paths: meetups.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
   };
 }
 
