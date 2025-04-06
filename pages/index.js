@@ -1,7 +1,8 @@
 // 메인 페이지
 import clientPromise from "../lib/db";
 import MeetupList from "../components/meetups/MeetupList";
-
+import Head from "next/head";
+import { Fragment } from "react";
 // const DUMMY_MEETUPS = [
 //   {
 //     id: "m1",
@@ -40,7 +41,18 @@ import MeetupList from "../components/meetups/MeetupList";
 // 메인 페이지 컴포넌트
 function HomePage(props) {
   // props로 전달된 모임 약속 데이터를 MeetupList에 전달
-  return <MeetupList meetups={props.meetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active React meetups"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </Fragment>
+  );
 }
 
 // 페이지 사전 생성 시 실행되는 함수 (정적 생성)
