@@ -37,3 +37,21 @@
 .header a.active {
   color: white;
 }
+
+.logout {
+  font: inherit;
+  font-size: 1.5rem;        
+  text-decoration: none;  
+  background-color: transparent;
+  border: none;
+  color: #fcb8d2;         
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0;             
+  margin: 0;
+}
+
+.logout:hover,
+.logout:active {
+  color: white;
+}
