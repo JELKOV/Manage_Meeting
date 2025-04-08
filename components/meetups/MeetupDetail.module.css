@@ -20,3 +20,43 @@
   margin: 0.5rem 0;
   font-size: 1.1rem;
 }
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ✏️ Edit 버튼 */
+.actions button:first-child {
+  background-color: #0070f3;
+  color: white;
+}
+
+.actions button:first-child:hover {
+  background-color: #0059c1;
+}
+
+/* 🗑️ Delete 버튼 */
+.actions button:last-child {
+  background-color: #e00;
+  color: white;
+}
+
+.actions button:last-child:hover {
+  background-color: #b30000;
+}

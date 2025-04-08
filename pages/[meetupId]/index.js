@@ -3,6 +3,8 @@ import MeetupDetail from "../../components/meetups/MeetupDetail";
 import clientPromise from "../../lib/db";
 import { Fragment } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 function MeetupDetails(props) {
   const {
@@ -14,8 +16,33 @@ function MeetupDetails(props) {
     time,
     capacity,
     createdAt,
+    creatorId,
+    id,
   } = props.meetupData;
-  
+
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const userIsCreator = session?.user?.id === creatorId;
+
+  const handleEdit = () => {
+    router.push(`/edit/${id}`);
+  };
+
+  const handleDelete = async () => {
+    if (confirm("정말로 삭제하시겠습니까?")) {
+      const response = await fetch(`/api/meetups/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        router.replace("/");
+      } else {
+        alert("삭제 중 오류 발생");
+      }
+    }
+  };
+
   return (
     <Fragment>
       <Head>
@@ -31,6 +58,9 @@ function MeetupDetails(props) {
         time={time}
         capacity={capacity}
         createdAt={createdAt}
+        isEditable={userIsCreator}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
     </Fragment>
   );
@@ -67,6 +97,7 @@ export async function getStaticProps(context) {
         createdAt: selectedMeetup.createdAt
           ? selectedMeetup.createdAt.toString()
           : null,
+        creatorId: selectedMeetup.creatorId || null,
       },
     },
   };

@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Card from "../ui/Card";
-import classes from "./NewMeetupForm.module.css";
+import classes from "./MeetupForm.module.css";
 
-function NewMeetupForm(props) {
+function MeetupForm({ mode = "create", initialData = {}, onSubmit }) {
   const titleInputRef = useRef();
   const imageInputRef = useRef();
   const addressInputRef = useRef();
@@ -10,6 +10,18 @@ function NewMeetupForm(props) {
   const dateInputRef = useRef();
   const timeInputRef = useRef();
   const capacityInputRef = useRef();
+
+  useEffect(() => {
+    if (mode === "edit" && initialData) {
+      titleInputRef.current.value = initialData.title || "";
+      imageInputRef.current.value = initialData.image || "";
+      addressInputRef.current.value = initialData.address || "";
+      descriptionInputRef.current.value = initialData.description || "";
+      dateInputRef.current.value = initialData.date || "";
+      timeInputRef.current.value = initialData.time || "";
+      capacityInputRef.current.value = initialData.capacity || "";
+    }
+  }, [mode, initialData]);
 
   function submitHandler(event) {
     event.preventDefault();
@@ -32,7 +44,7 @@ function NewMeetupForm(props) {
       capacity: enteredCapacity,
     };
 
-    props.onAddMeetup(meetupData);
+    onSubmit(meetupData);
   }
 
   return (
@@ -78,11 +90,11 @@ function NewMeetupForm(props) {
           />
         </div>
         <div className={classes.actions}>
-          <button>Add Meetup</button>
+          <button>{mode === "edit" ? "Update Meetup" : "Add Meetup"}</button>
         </div>
       </form>
     </Card>
   );
 }
 
-export default NewMeetupForm;
+export default MeetupForm;

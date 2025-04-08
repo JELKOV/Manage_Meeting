@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]"; //
-import NewMeetupForm from "../../components/meetups/NewMeetupForm";
+import MeetupForm from "../../components/meetups/MeetupForm";
 
 // 새 모임 등록 페이지 컴포넌트
 function NewMeetupPage() {
@@ -36,7 +36,7 @@ function NewMeetupPage() {
           content="Add your own meetup and create amazing networking opportunities"
         />
       </Head>
-      <NewMeetupForm onAddMeetup={addMeetupHandler} />
+      <MeetupForm onSubmit={addMeetupHandler} />
     </Fragment>
   );
 }
