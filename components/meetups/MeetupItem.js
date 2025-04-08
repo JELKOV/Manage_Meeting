@@ -20,10 +20,10 @@ function MeetupItem(props) {
           <p>
             📅 {props.date} 🕒 {props.time}
           </p>
-          <p>👥 max: {props.capacity}people</p>
+          <p>👥 제한인원: {props.capacity}people</p>
         </div>
         <div className={classes.actions}>
-          <button onClick={showDetailsHandler}>Show Details</button>
+          <button onClick={showDetailsHandler}>자세히 보기</button>
         </div>
       </Card>
     </li>

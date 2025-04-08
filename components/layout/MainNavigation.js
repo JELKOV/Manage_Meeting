@@ -12,30 +12,32 @@ function MainNavigation() {
   return (
     <header className={classes.header}>
       <div className={classes.logo}>
-        <Link href="/">Meetups</Link>
+        <Link href="/">🧭 모임의 숲</Link>
       </div>
       <nav>
         <ul>
           <li>
-            <Link href="/">All Meetups</Link>
+            <Link href="/">🏠 홈</Link>
           </li>
-          <li>
-            <Link href="/new-meetup">Add New Meetup</Link>
-          </li>
+          {session && (
+            <li>
+              <Link href="/new-meetup">📝 모임 등록</Link>
+            </li>
+          )}
           {!session && status !== "loading" && (
             <>
               <li>
-                <Link href="/auth/signin">Login</Link>
+                <Link href="/auth/signin">🔐 로그인</Link>
               </li>
               <li>
-                <Link href="/auth/signup">Signup</Link>
+                <Link href="/auth/signup">🆕 회원가입</Link>
               </li>
             </>
           )}
           {session && (
             <li>
               <button className={classes.logout} onClick={logoutHandler}>
-                Logout
+                🚪 로그아웃
               </button>
             </li>
           )}
