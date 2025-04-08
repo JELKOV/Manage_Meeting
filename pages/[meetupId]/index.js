@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 function MeetupDetails(props) {
   const {
@@ -29,16 +30,28 @@ function MeetupDetails(props) {
     router.push(`/edit/${id}`);
   };
 
+
   const handleDelete = async () => {
-    if (confirm("정말로 삭제하시겠습니까?")) {
-      const response = await fetch(`/api/meetups/${id}`, {
+    const result = await Swal.fire({
+      title: "정말로 삭제하시겠습니까?",
+      text: "되돌릴 수 없습니다.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    });
+  
+    if (result.isConfirmed) {
+      const response = await fetch(`/api/delete/${id}`, {
         method: "DELETE",
       });
-
+  
       if (response.ok) {
         router.replace("/");
       } else {
-        alert("삭제 중 오류 발생");
+        Swal.fire("에러", "삭제 중 오류 발생", "error");
       }
     }
   };
