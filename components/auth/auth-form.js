@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import Link from "next/link";
 import classes from "./auth-form.module.css";
 
 function AuthForm({ mode, onSubmit }) {
@@ -22,7 +23,7 @@ function AuthForm({ mode, onSubmit }) {
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      <h1>{mode === "signin" ? "Login" : "Signup"}</h1>
+      <h1>{mode === "signin" ? "Login" : "Sign Up"}</h1>
       <div>
         <label htmlFor="email">Email</label>
         <input type="email" id="email" required ref={emailRef} />
@@ -31,8 +32,30 @@ function AuthForm({ mode, onSubmit }) {
         <label htmlFor="password">Password</label>
         <input type="password" id="password" required ref={passwordRef} />
       </div>
+
       {error && <p>{error}</p>}
-      <button>{mode === "signin" ? "Login" : "Signup"}</button>
+
+      <button>{mode === "signin" ? "Login" : "Sign Up"}</button>
+
+      <p className={classes.switch}>
+        {mode === "signin" ? (
+          <>
+            <span>Don't have an account yet?</span>
+            <br />
+            <Link href="/auth/signup">
+              <span className={classes.cta}>👉 Sign up here</span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <span>Already have an account?</span>
+            <br />
+            <Link href="/auth/signin">
+              <span className={classes.cta}>👉 Log in here</span>
+            </Link>
+          </>
+        )}
+      </p>
     </form>
   );
 }

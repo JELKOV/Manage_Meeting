@@ -55,3 +55,23 @@
   text-align: center;
   margin-top: 0.5rem;
 }
+
+.switch {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.cta {
+  font-weight: 600;
+  color: #77002e;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.3rem;
+}
+
+.cta:hover {
+  color: #a50e48;
+}
