@@ -8,3 +8,15 @@
   border-radius: 6px;
   object-fit: cover;
 }
+
+.extra {
+  margin-top: 1rem;
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.extra p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}

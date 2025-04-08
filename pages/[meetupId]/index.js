@@ -5,6 +5,17 @@ import { Fragment } from "react";
 import Head from "next/head";
 
 function MeetupDetails(props) {
+  const {
+    image,
+    title,
+    address,
+    description,
+    date,
+    time,
+    capacity,
+    createdAt,
+  } = props.meetupData;
+  
   return (
     <Fragment>
       <Head>
@@ -12,10 +23,14 @@ function MeetupDetails(props) {
         <meta name="description" content={props.meetupData.description} />
       </Head>
       <MeetupDetail
-        image={props.meetupData.image}
-        title={props.meetupData.title}
-        address={props.meetupData.address}
-        description={props.meetupData.description}
+        image={image}
+        title={title}
+        address={address}
+        description={description}
+        date={date}
+        time={time}
+        capacity={capacity}
+        createdAt={createdAt}
       />
     </Fragment>
   );
@@ -41,11 +56,17 @@ export async function getStaticProps(context) {
   return {
     props: {
       meetupData: {
-        id: selectedMeetup._id.toString(), // ObjectId를 문자열로 변환
+        id: selectedMeetup._id.toString(),
         title: selectedMeetup.title,
         image: selectedMeetup.image,
         address: selectedMeetup.address,
         description: selectedMeetup.description,
+        date: selectedMeetup.date || null,
+        time: selectedMeetup.time || null,
+        capacity: selectedMeetup.capacity || null,
+        createdAt: selectedMeetup.createdAt
+          ? selectedMeetup.createdAt.toString()
+          : null,
       },
     },
   };

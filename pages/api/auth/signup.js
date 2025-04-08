@@ -1,4 +1,3 @@
-import { hash } from "bcryptjs";
 import { hashPassword } from "../../../lib/auth";
 import clientPromise from "../../../lib/db";
 

@@ -69,10 +69,14 @@ export async function getStaticProps() {
     props: {
       // 프론트엔드에서 사용할 수 있도록 _id를 문자열로 변환
       meetups: meetups.map((meetup) => ({
+        id: meetup._id.toString(),
         title: meetup.title,
         address: meetup.address,
         image: meetup.image,
-        id: meetup._id.toString(),
+        date: meetup.date || null,
+        time: meetup.time || null,
+        capacity: meetup.capacity || null,
+        createdAt: meetup.createdAt ? meetup.createdAt.toString() : null,
       })),
     },
     revalidate: 10,

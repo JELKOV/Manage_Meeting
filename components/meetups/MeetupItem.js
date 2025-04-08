@@ -17,6 +17,10 @@ function MeetupItem(props) {
         <div className={classes.content}>
           <h3>{props.title}</h3>
           <address>{props.address}</address>
+          <p>
+            📅 {props.date} 🕒 {props.time}
+          </p>
+          <p>👥 max: {props.capacity}people</p>
         </div>
         <div className={classes.actions}>
           <button onClick={showDetailsHandler}>Show Details</button>
