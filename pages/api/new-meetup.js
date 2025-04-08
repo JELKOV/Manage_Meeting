@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         .json({ message: "인증된 사용자만 사용할수 있습니다." });
     }
 
-    const { title, image, address, description } = req.body;
+    const { title, image, address, description, date, time, capacity } = req.body;
 
     try {
       const client = await clientPromise;
@@ -26,6 +26,9 @@ export default async function handler(req, res) {
         image,
         address,
         description,
+        date,
+        time,
+        capacity,
         creatorId: session.user.id,
         createdAt: new Date(),
       });
