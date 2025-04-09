@@ -2,7 +2,102 @@
 import clientPromise from "../lib/db";
 import MeetupList from "../components/meetups/MeetupList";
 import Head from "next/head";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
+import SearchBar from "../components/ui/SearchBar";
+import { useRouter } from "next/router";
+import SearchLayout from "../components/ui/SearchLayout";
+
+// 메인 페이지 컴포넌트
+function HomePage(props) {
+  const [filters, setFilters] = useState({ keyword: "", region: "", date: "" });
+  const [filteredMeetups, setFilteredMeetups] = useState(props.meetups);
+  const router = useRouter();
+
+  useEffect(() => {
+    // 라우트 변경 시작 시 호출되는 함수
+    const handleRouteChange = (url) => {
+      // 외부 URL 또는 다른 경로일 경우 필터 초기화를 하지 않음
+      const isNavigatingToHome = url === "/";
+      if (!isNavigatingToHome) return;
+
+      // 홈(/)으로 이동할 때만 필터 및 결과 초기화
+      // 검색 조건 초기화
+      setFilters({ keyword: "", region: "", date: "" }); 
+      // 전체 목록 복원
+      setFilteredMeetups(props.meetups); 
+    };
+
+    // Next.js의 router 이벤트 리스너 등록
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    // 클린업 함수 – 컴포넌트가 unmount되거나 의존값이 바뀔 때 이벤트 해제
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router, props.meetups]);
+
+  async function handleSearch({ keyword, region, date }) {
+    const query = new URLSearchParams();
+
+    if (keyword) query.append("keyword", keyword);
+    if (region) query.append("region", region);
+    if (date) query.append("date", date);
+
+    const res = await fetch(`/api/search?${query.toString()}`);
+    const data = await res.json();
+    // 검색 결과 반영
+    setFilteredMeetups(data.meetups);
+  }
+
+  // props로 전달된 모임 약속 데이터를 MeetupList에 전달
+  return (
+    <Fragment>
+      <Head>
+        <title>Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active meetups"
+        />
+      </Head>
+      <SearchLayout
+        sidebar={<SearchBar onSearch={handleSearch} filters={filters} />}
+      >
+        <MeetupList meetups={filteredMeetups} />
+      </SearchLayout>
+    </Fragment>
+  );
+}
+
+// 페이지 사전 생성 시 실행되는 함수 (정적 생성)
+export async function getStaticProps() {
+  // MongoDB 연결
+  const client = await clientPromise;
+  const db = client.db();
+  // meetups 컬렉션 접근
+  const meetupsCollection = db.collection("meetups");
+  // 모든 모임 문서 가져오기
+  const meetups = await meetupsCollection.find().toArray();
+
+  return {
+    props: {
+      // 프론트엔드에서 사용할 수 있도록 _id를 문자열로 변환
+      meetups: meetups.map((meetup) => ({
+        id: meetup._id.toString(),
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        date: meetup.date || null,
+        time: meetup.time || null,
+        capacity: meetup.capacity || null,
+        createdAt: meetup.createdAt ? meetup.createdAt.toString() : null,
+      })),
+    },
+    revalidate: 10,
+  };
+}
+
+export default HomePage;
+
 // const DUMMY_MEETUPS = [
 //   {
 //     id: "m1",
@@ -37,61 +132,3 @@ import { Fragment } from "react";
 //     description: "한 달에 한 권씩 정하고 함께 읽고 이야기 나눕니다.",
 //   },
 // ];
-
-// 메인 페이지 컴포넌트
-function HomePage(props) {
-  // props로 전달된 모임 약속 데이터를 MeetupList에 전달
-  return (
-    <Fragment>
-      <Head>
-        <title>Meetups</title>
-        <meta
-          name="description"
-          content="Browse a huge list of highly active React meetups"
-        />
-      </Head>
-      <MeetupList meetups={props.meetups} />
-    </Fragment>
-  );
-}
-
-// 페이지 사전 생성 시 실행되는 함수 (정적 생성)
-export async function getStaticProps() {
-  // MongoDB 연결
-  const client = await clientPromise;
-  const db = client.db();
-  // meetups 컬렉션 접근
-  const meetupsCollection = db.collection("meetups");
-  // 모든 모임 문서 가져오기
-  const meetups = await meetupsCollection.find().toArray();
-
-  return {
-    props: {
-      // 프론트엔드에서 사용할 수 있도록 _id를 문자열로 변환
-      meetups: meetups.map((meetup) => ({
-        id: meetup._id.toString(),
-        title: meetup.title,
-        address: meetup.address,
-        image: meetup.image,
-        date: meetup.date || null,
-        time: meetup.time || null,
-        capacity: meetup.capacity || null,
-        createdAt: meetup.createdAt ? meetup.createdAt.toString() : null,
-      })),
-    },
-    revalidate: 10,
-  };
-}
-
-// export async function getServerSideProps(context) {
-//   const req = context.req;
-//   const res = context.res;
-
-//   return {
-//     props: {
-//       meetups: DUMMY_MEETUPS,
-//     },
-//   };
-// }
-
-export default HomePage;
