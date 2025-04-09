@@ -1,9 +1,12 @@
+import { useSession } from "next-auth/react";
 import KakaoMap from "../map/KaKaoMap";
 import classes from "./MeetupDetail.module.css";
 import { format } from "date-fns";
+import ParticipationControls from "./ParticipationControls";
 
 function MeetupDetail(props) {
   const {
+    id,
     image,
     title,
     address,
@@ -17,10 +20,19 @@ function MeetupDetail(props) {
     onDelete,
   } = props;
 
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   return (
     <section className={classes.detail}>
       <img src={image} alt={title} />
-      {/* 작성자인 경우에만 수정/삭제 버튼 표시 */}
+      {userId && (
+        <ParticipationControls
+          meetupId={props.id}
+          userId={userId}
+          capacity={props.capacity}
+        />
+      )}
       {isEditable && (
         <div className={classes.actions}>
           <button onClick={onEdit}>✏️ 수정</button>
@@ -37,9 +49,6 @@ function MeetupDetail(props) {
         </p>
         <p>
           🕒 <strong>시간:</strong> {time}
-        </p>
-        <p>
-          👥 <strong>제한인원:</strong> {capacity} people
         </p>
         {createdAt && (
           <p>

@@ -11,7 +11,7 @@
  *
  * 브라우저 콘솔 예시:
  * ```js
- * fetch("/api/fix-meetups-fields", {
+ * fetch("/api/admin/fix-meetups-fields", {
  *   method: "POST",
  * })
  *   .then((res) => res.json())
@@ -21,7 +21,7 @@
  */
   
 
-import clientPromise from "../../lib/db";
+import clientPromise from "../../../lib/db";
 
 export default async function handler(req, res) {
   // POST 요청만 허용

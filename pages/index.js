@@ -22,9 +22,9 @@ function HomePage(props) {
 
       // 홈(/)으로 이동할 때만 필터 및 결과 초기화
       // 검색 조건 초기화
-      setFilters({ keyword: "", region: "", date: "" }); 
+      setFilters({ keyword: "", region: "", date: "" });
       // 전체 목록 복원
-      setFilteredMeetups(props.meetups); 
+      setFilteredMeetups(props.meetups);
     };
 
     // Next.js의 router 이벤트 리스너 등록

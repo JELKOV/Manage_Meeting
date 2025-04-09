@@ -4,7 +4,7 @@
  * 테스트용 계정의 ObjectId를 모든 기존 meetup 문서에 추가
  * (운영 전환 시 제거 권장)
  */
-import clientPromise from "../../lib/db";
+import clientPromise from "../../../lib/db";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

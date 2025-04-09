@@ -2,8 +2,13 @@ import { useRouter } from "next/router";
 
 import Card from "../ui/Card";
 import classes from "./MeetupItem.module.css";
+import { useSession } from "next-auth/react";
+import ParticipationControls from "./ParticipationControls";
 
 function MeetupItem(props) {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   const router = useRouter();
   function showDetailsHandler() {
     router.push("/" + props.id);
@@ -20,8 +25,14 @@ function MeetupItem(props) {
           <p>
             📅 {props.date} 🕒 {props.time}
           </p>
-          <p>👥 제한인원: {props.capacity}people</p>
         </div>
+        {userId && (
+          <ParticipationControls
+            meetupId={props.id}
+            userId={userId}
+            capacity={props.capacity}
+          />
+        )}
         <div className={classes.actions}>
           <button onClick={showDetailsHandler}>자세히 보기</button>
         </div>

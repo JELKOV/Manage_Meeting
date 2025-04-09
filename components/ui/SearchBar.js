@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import classes from "./SearchBar.module.css";
-import { useRouter } from "next/router";
 
 /**
  * SearchBar 컴포넌트

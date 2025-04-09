@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 function MeetupDetails(props) {
   const {
+    id,
     image,
     title,
     address,
@@ -18,8 +19,8 @@ function MeetupDetails(props) {
     capacity,
     createdAt,
     creatorId,
-    id,
   } = props.meetupData;
+
 
   const router = useRouter();
   const { data: session } = useSession();
@@ -29,7 +30,6 @@ function MeetupDetails(props) {
   const handleEdit = () => {
     router.push(`/edit/${id}`);
   };
-
 
   const handleDelete = async () => {
     const result = await Swal.fire({
@@ -42,12 +42,12 @@ function MeetupDetails(props) {
       confirmButtonText: "삭제",
       cancelButtonText: "취소",
     });
-  
+
     if (result.isConfirmed) {
       const response = await fetch(`/api/delete/${id}`, {
         method: "DELETE",
       });
-  
+
       if (response.ok) {
         router.replace("/");
       } else {
@@ -63,6 +63,7 @@ function MeetupDetails(props) {
         <meta name="description" content={props.meetupData.description} />
       </Head>
       <MeetupDetail
+        id={id}
         image={image}
         title={title}
         address={address}

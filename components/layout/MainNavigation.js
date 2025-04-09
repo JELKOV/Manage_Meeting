@@ -19,11 +19,23 @@ function MainNavigation() {
           <li>
             <Link href="/">🏠 홈</Link>
           </li>
+
           {session && (
-            <li>
-              <Link href="/new-meetup">📝 모임 등록</Link>
-            </li>
+            <>
+              <li>
+                <Link href="/new-meetup">📝 모임 등록</Link>
+              </li>
+              <li>
+                <Link href="/user/my-meetups">📂 마이 모임</Link>
+              </li>
+              <li>
+                <button className={classes.logout} onClick={logoutHandler}>
+                  🚪 로그아웃
+                </button>
+              </li>
+            </>
           )}
+
           {!session && status !== "loading" && (
             <>
               <li>
@@ -33,13 +45,6 @@ function MainNavigation() {
                 <Link href="/auth/signup">🆕 회원가입</Link>
               </li>
             </>
-          )}
-          {session && (
-            <li>
-              <button className={classes.logout} onClick={logoutHandler}>
-                🚪 로그아웃
-              </button>
-            </li>
           )}
         </ul>
       </nav>
