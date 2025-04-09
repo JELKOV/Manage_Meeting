@@ -1,7 +1,8 @@
 // 사용자가 참여한 모임 목록을 불러오는 페이지
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import MeetupList from "../../components/meetups/MeetupList";
+import Head from "next/head";
 
 function MyMeetupsPage() {
   const { data: session } = useSession(); // 로그인 세션 정보
@@ -19,7 +20,18 @@ function MyMeetupsPage() {
     fetchMyMeetups();
   }, [session]);
 
-  return <MeetupList meetups={joinedMeetups} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>My Meetups</title>
+        <meta
+          name="description"
+          content="Manage your own meetup"
+        />
+      </Head>
+      <MeetupList meetups={joinedMeetups} />;
+    </Fragment>
+  );
 }
 
 export default MyMeetupsPage;

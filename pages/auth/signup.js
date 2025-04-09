@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import AuthForm from "../../components/auth/auth-form";
+import { Fragment } from "react";
+import Head from "next/head";
 
 function SignUpPage() {
   const router = useRouter();
@@ -19,7 +21,15 @@ function SignUpPage() {
     router.replace("/auth/signin"); // 가입 후 로그인 페이지로 이동
   }
 
-  return <AuthForm mode="signup" onSubmit={handleSignUp} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>Sign up</title>
+        <meta name="description" content="Sign up your account" />
+      </Head>
+      <AuthForm mode="signup" onSubmit={handleSignUp} />;
+    </Fragment>
+  );
 }
 
 export default SignUpPage;

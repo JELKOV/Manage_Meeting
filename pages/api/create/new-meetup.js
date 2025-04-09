@@ -1,7 +1,7 @@
 // pages/api/new-meetup.js
 import { getServerSession } from "next-auth";
-import clientPromise from "../../lib/db";
-import { authOptions } from "./auth/[...nextauth]";
+import clientPromise from "../../../lib/db";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

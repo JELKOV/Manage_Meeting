@@ -1,3 +1,4 @@
+/* ✅ 기본 스타일 (데스크탑) */
 .page {
   display: flex;
   gap: 2rem;
@@ -16,4 +17,38 @@
 
 .content {
   flex: 1;
+}
+
+/* ✅ 태블릿 이하에서는 사이드바를 위로 올리고 전체 너비 사용 */
+@media (max-width: 768px) {
+  .page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .content {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .select,
+  .date,
+  .input,
+  .button {
+    font-size: 0.95rem;
+    padding: 0.6rem;
+  }
 }

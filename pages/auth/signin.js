@@ -1,6 +1,8 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import AuthForm from "../../components/auth/auth-form";
+import { Fragment } from "react";
+import Head from "next/head";
 
 function SignInPage() {
   const router = useRouter();
@@ -19,7 +21,15 @@ function SignInPage() {
     }
   }
 
-  return <AuthForm mode="signin" onSubmit={handleSignIn} />;
+  return (
+    <Fragment>
+      <Head>
+        <title>Sign in</title>
+        <meta name="description" content="Login your account" />
+      </Head>
+      <AuthForm mode="signin" onSubmit={handleSignIn} />;
+    </Fragment>
+  );
 }
 
 export default SignInPage;

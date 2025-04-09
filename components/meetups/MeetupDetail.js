@@ -26,24 +26,16 @@ function MeetupDetail(props) {
   return (
     <section className={classes.detail}>
       <img src={image} alt={title} />
-      {userId && (
-        <ParticipationControls
-          meetupId={props.id}
-          userId={userId}
-          capacity={props.capacity}
-        />
-      )}
-      {isEditable && (
-        <div className={classes.actions}>
-          <button onClick={onEdit}>✏️ 수정</button>
-          <button onClick={onDelete}>🗑️ 삭제</button>
-        </div>
-      )}
-      <h1>{title}</h1>
-      <address>{address}</address>
-      <p>{description}</p>
-
       <div className={classes.extra}>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        {userId && (
+          <ParticipationControls
+            meetupId={id}
+            userId={userId}
+            capacity={capacity}
+          />
+        )}
         <p>
           📅 <strong>날짜:</strong> {date}
         </p>
@@ -56,6 +48,18 @@ function MeetupDetail(props) {
             {format(new Date(createdAt), "yyyy-MM-dd HH:mm")}
           </p>
         )}
+        {isEditable && (
+          <div className={classes.actions}>
+            <button onClick={onEdit}>✏️ 수정</button>
+            <button onClick={onDelete}>🗑️ 삭제</button>
+          </div>
+        )}
+      </div>
+      <div className={classes.extra}>
+        <p>
+          <strong>주소:</strong>
+          {address}
+        </p>
       </div>
       <KakaoMap address={address} />
     </section>

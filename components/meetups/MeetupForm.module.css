@@ -1,5 +1,6 @@
 .form {
   padding: 1rem;
+  width: 100%;
 }
 
 .control {
@@ -20,6 +21,7 @@
   border: 1px solid #ccc;
   padding: 0.25rem;
   width: 100%;
+  box-sizing: border-box; 
 }
 
 .actions {
@@ -42,4 +44,49 @@
 .actions button:active {
   background-color: #a50e48;
   border-color: #a50e48;
+}
+
+@media (max-width: 768px) {
+  .form {
+    padding: 1rem;
+  }
+
+  .control label {
+    font-size: 0.95rem;
+  }
+
+  .control input,
+  .control textarea {
+    font-size: 1rem;
+    padding: 0.65rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .actions button {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form {
+    padding: 0.8rem;
+  }
+
+  .control input,
+  .control textarea {
+    padding: 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  .actions button {
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+  }
 }

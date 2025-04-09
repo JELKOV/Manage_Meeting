@@ -7,3 +7,18 @@
   justify-content: space-between;
   height: 100%;
 }
+
+@media (max-width: 768px) {
+  .card {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    box-shadow: none;
+    border-radius: 0;
+    border: 1px solid #ddd;
+  }
+}

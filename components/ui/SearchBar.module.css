@@ -40,3 +40,22 @@
 .button:hover {
   background-color: #f3e5f5;
 }
+
+@media (max-width: 480px) {
+  .form {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .select,
+  .date,
+  .input,
+  .button {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+
+  .button {
+    font-weight: 600;
+  }
+}

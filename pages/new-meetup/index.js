@@ -11,7 +11,7 @@ function NewMeetupPage() {
 
   // 모임 등록 핸들러 함수
   async function addMeetupHandler(enteredMeetupData) {
-    const response = await fetch("/api/new-meetup", {
+    const response = await fetch("/api/create/new-meetup", {
       method: "POST",
       body: JSON.stringify(enteredMeetupData),
       headers: {

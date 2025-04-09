@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import ParticipationControls from "./ParticipationControls";
 
 function MeetupItem(props) {
+  const { id, image, title, address, date, time, capacity } = props;
+
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -17,20 +19,21 @@ function MeetupItem(props) {
     <li className={classes.item}>
       <Card>
         <div className={classes.image}>
-          <img src={props.image} alt={props.title} />
+          <img src={image} alt={title} />
         </div>
         <div className={classes.content}>
-          <h3>{props.title}</h3>
-          <address>{props.address}</address>
+          <h3>{title}</h3>
           <p>
-            📅 {props.date} 🕒 {props.time}
+            📅 {date} <br />
+            🕒 {time}
           </p>
+          <address>{address}</address>
         </div>
         {userId && (
           <ParticipationControls
-            meetupId={props.id}
+            meetupId={id}
             userId={userId}
-            capacity={props.capacity}
+            capacity={capacity}
           />
         )}
         <div className={classes.actions}>

@@ -24,7 +24,7 @@ function ParticipationControls({ meetupId, capacity, userId }) {
       <button
         onClick={joined ? cancel : join}
         disabled={loading}
-        className={classes.btn}
+        className={`${classes.btn} ${joined ? classes.cancel : classes.join}`}
       >
         {joined ? "참여 취소" : "참여 하기"}
       </button>
