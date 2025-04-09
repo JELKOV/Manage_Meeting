@@ -43,7 +43,7 @@ function HomePage(props) {
     if (region) query.append("region", region);
     if (date) query.append("date", date);
 
-    const res = await fetch(`/api/search?${query.toString()}`);
+    const res = await fetch(`/api/search/search?${query.toString()}`);
     const data = await res.json();
     // 검색 결과 반영
     setFilteredMeetups(data.meetups);
