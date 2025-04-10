@@ -131,7 +131,7 @@ export async function getStaticPaths() {
 
   // 각 meetup의 ID를 문자열로 변환해 경로 배열 생성
   return {
-    fallback: false, // 정의된 경로 외에는 404 페이지로 처리
+    fallback: 'blocking', // 정의된 경로가 불확실 할수 있음을 알림
     paths: meetups.map((meetup) => ({
       params: { meetupId: meetup._id.toString() },
     })),

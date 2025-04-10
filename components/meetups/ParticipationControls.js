@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useJoinMeetup from "../../pages/hooks/useJoinMeetup";
+import useJoinMeetup from "../../hooks/useJoinMeetup";
 import classes from "./ParticipationControls.module.css";
 
 function ParticipationControls({ meetupId, capacity, userId }) {
